@@ -108,6 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 3. Project Detail Modal Interactive Popup
     const projectModal = document.getElementById('projectModal');
     const modalImage = document.getElementById('modalImage');
+    const modalVideo = document.getElementById('modalVideo');
     const modalTitle = document.getElementById('modalTitle');
     const modalDesc = document.getElementById('modalDesc');
     const modalCategory = document.getElementById('modalCategory');
@@ -121,16 +122,35 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentScreenshots = [];
     let currentSlideIndex = 0;
 
+    function renderCurrentSlide() {
+        if (currentScreenshots.length === 0) return;
+        const currentSrc = currentScreenshots[currentSlideIndex];
+        const isVideo = currentSrc.match(/\.(mp4|webm|ogg|mov)$/i);
+
+        if (isVideo) {
+            if (modalImage) modalImage.style.display = 'none';
+            if (modalVideo) {
+                modalVideo.src = currentSrc;
+                modalVideo.style.display = 'block';
+            }
+        } else {
+            if (modalVideo) {
+                modalVideo.pause();
+                modalVideo.style.display = 'none';
+            }
+            if (modalImage) {
+                modalImage.src = currentSrc;
+                modalImage.style.display = 'block';
+            }
+        }
+    }
+
     function updateModalSlides() {
         if (currentScreenshots.length <= 1) {
-            // Hide arrows and indicators if only 1 image exists
+            // Hide arrows and indicators if only 1 image/video exists
             if (modalPrevBtn) modalPrevBtn.style.display = 'none';
             if (modalNextBtn) modalNextBtn.style.display = 'none';
             if (modalSlideIndicator) modalSlideIndicator.style.display = 'none';
-
-            if (currentScreenshots.length === 1) {
-                modalImage.src = currentScreenshots[0];
-            }
         } else {
             // Show arrows and indicators for slide decks
             if (modalPrevBtn) modalPrevBtn.style.display = 'flex';
@@ -139,8 +159,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 modalSlideIndicator.style.display = 'block';
                 modalSlideIndicator.textContent = `${currentSlideIndex + 1} / ${currentScreenshots.length}`;
             }
-            modalImage.src = currentScreenshots[currentSlideIndex];
         }
+        renderCurrentSlide();
     }
 
     // Attach click event to EXPLORE PROJECT buttons
@@ -152,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Extract details from the card
             const category = card.querySelector('.project-category').textContent;
-            const img = card.querySelector('.project-visual img');
+            const visualMedia = card.querySelector('.project-visual img, .project-visual video');
             const title = card.querySelector('.project-title').textContent;
 
             // Fall back to general card description if no project-definition is found
@@ -165,11 +185,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Parse comma-separated list of screenshot URLs
             const screenshotsAttr = card.getAttribute('data-screenshots');
-            const defaultImgSrc = img ? img.getAttribute('src') : '';
+            const defaultMediaSrc = visualMedia ? visualMedia.getAttribute('src') : '';
             if (screenshotsAttr) {
                 currentScreenshots = screenshotsAttr.split(',').map(s => s.trim());
             } else {
-                currentScreenshots = defaultImgSrc ? [defaultImgSrc] : [];
+                currentScreenshots = defaultMediaSrc ? [defaultMediaSrc] : [];
             }
             currentSlideIndex = 0;
 
@@ -201,6 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Next slide
     if (modalNextBtn) {
         modalNextBtn.addEventListener('click', () => {
             if (currentScreenshots.length > 1) {
@@ -210,22 +231,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function closeModal() {
+        if (projectModal) {
+            projectModal.classList.remove('active');
+            document.body.style.overflow = ''; // Unlock page scroll
+        }
+        if (modalVideo) {
+            modalVideo.pause();
+        }
+    }
+
     // Close Modal handlers
     if (closeModalBtn) {
-        closeModalBtn.addEventListener('click', () => {
-            if (projectModal) {
-                projectModal.classList.remove('active');
-                document.body.style.overflow = ''; // Unlock page scroll
-            }
-        });
+        closeModalBtn.addEventListener('click', closeModal);
     }
 
     // Close modal when clicking outside modal-content card frame
     if (projectModal) {
         projectModal.addEventListener('click', (e) => {
             if (e.target === projectModal) {
-                projectModal.classList.remove('active');
-                document.body.style.overflow = '';
+                closeModal();
             }
         });
     }

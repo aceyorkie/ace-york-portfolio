@@ -278,6 +278,7 @@
                 <button class="filter-tab" data-filter="development">DEVELOPMENT</button>
                 <button class="filter-tab" data-filter="design">UI/UX DESIGN</button>
                 <button class="filter-tab" data-filter="branding">GRAPHIC DESIGN</button>
+                <button class="filter-tab" data-filter="video">VIDEO EDITING</button>
             </div>
             <div class="grid-col-4 bp-search-container">
                 <i class="fa-solid fa-magnifying-glass bp-search-icon"></i>
@@ -662,7 +663,7 @@
                 </div>
             </div>
 
-            <div class="project-card extra-project" data-category="design" data-title="PSITS LOGO" style="display: none;"
+            <div class="project-card extra-project" data-category="branding" data-title="PSITS LOGO" style="display: none;"
                 data-screenshots="img/PSITS-LOGO.png">
                 <div class="project-card-header">
                     <span class="project-category">Logo Design</span>
@@ -1239,6 +1240,80 @@
                 </div>
             </div>
 
+            <!-- Project Video 1 -->
+            <div class="project-card border-r extra-project" data-category="video" data-title="Video Editing Showcase 01"
+                style="display: none;" data-screenshots="vid/vid1.mp4">
+                <div class="project-card-header">
+                    <span class="project-category">Video Editing</span>
+                    <span style="font-family: var(--font-mono); font-size: 0.8rem;">[ VIDEO EDIT ]</span>
+                </div>
+                <div class="project-visual">
+                    <div class="project-grid-dec"></div>
+                    <video src="vid/vid1.mp4" controls preload="metadata" style="max-width: 100%; max-height: 100%; object-fit: contain; z-index: 1;"></video>
+                </div>
+                <div class="project-details">
+                    <div class="project-definition" style="display: none;">
+                        <p><strong>Video Editing Showcase 01: </strong>A video editing showcase project created using professional editing workflows. Demonstrating precise cuts, color grading, audio synchronization, and visual effects.</p>
+                    </div>
+                    <div class="project-title-row">
+                        <h3 class="project-title">Video Editing Showcase 01</h3>
+                        <p class="project-desc">A video editing showcase demonstrating visual storytelling, motion cuts, and sound design.</p>
+                    </div>
+                    <div class="project-stats-grid">
+                        <div class="project-stat-box">
+                            <span style="font-size: 0.65rem; color: var(--text-muted);">ROLE</span>
+                            <span style="font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700;">Video Editor</span>
+                        </div>
+                        <div class="project-stat-box">
+                            <span style="font-size: 0.65rem; color: var(--text-muted);">YEAR</span>
+                            <span style="font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700;">2026</span>
+                        </div>
+                        <div class="project-stat-arrow">
+                            <button class="btn-project-link">
+                                EXPLORE PROJECT <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project Video 2 -->
+            <div class="project-card extra-project" data-category="video" data-title="Video Editing Showcase 02"
+                style="display: none;" data-screenshots="vid/vid2.mp4">
+                <div class="project-card-header">
+                    <span class="project-category">Video Editing</span>
+                    <span style="font-family: var(--font-mono); font-size: 0.8rem;">[ VIDEO EDIT ]</span>
+                </div>
+                <div class="project-visual">
+                    <div class="project-grid-dec"></div>
+                    <video src="vid/vid2.mp4" controls preload="metadata" style="max-width: 100%; max-height: 100%; object-fit: contain; z-index: 1;"></video>
+                </div>
+                <div class="project-details">
+                    <div class="project-definition" style="display: none;">
+                        <p><strong>Video Editing Showcase 02: </strong>A video editing project highlighting advanced editing techniques, smooth transitions, audio mixing, and creative post-production storytelling.</p>
+                    </div>
+                    <div class="project-title-row">
+                        <h3 class="project-title">Video Editing Showcase 02</h3>
+                        <p class="project-desc">A video editing project highlighting narrative pacing, transitions, and dynamic visual composition.</p>
+                    </div>
+                    <div class="project-stats-grid">
+                        <div class="project-stat-box">
+                            <span style="font-size: 0.65rem; color: var(--text-muted);">ROLE</span>
+                            <span style="font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700;">Video Editor</span>
+                        </div>
+                        <div class="project-stat-box">
+                            <span style="font-size: 0.65rem; color: var(--text-muted);">YEAR</span>
+                            <span style="font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700;">2026</span>
+                        </div>
+                        <div class="project-stat-arrow">
+                            <button class="btn-project-link">
+                                EXPLORE PROJECT <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </section>
 
         <!-- See More Button Row -->
@@ -1314,6 +1389,7 @@
                 <div class="bp-modal-visual">
                     <div class="project-grid-dec"></div>
                     <img id="modalImage" src="" alt="Project Screenshot">
+                    <video id="modalVideo" src="" controls style="display: none; max-width: 100%; max-height: 100%; object-fit: contain; z-index: 2;"></video>
 
                     <!-- Screenshot Carousel Nav Controls -->
                     <button id="modalPrevBtn" class="modal-nav-arrow arrow-left" aria-label="Previous screenshot">
