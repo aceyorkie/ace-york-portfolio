@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Details | Ace York Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="blueprint-frame">
+        <!-- Corner structural marks -->
+        <div class="bp-corner bp-corner-tl">+</div>
+        <div class="bp-corner bp-corner-tr">+</div>
+        <div class="bp-corner bp-corner-bl">+</div>
+        <div class="bp-corner bp-corner-br">+</div>
+
+        <!-- Top Technical Header -->
+        <header class="grid-row bp-header border-b">
+            <div class="grid-col-4 border-r bp-brand">
+                <a href="index.html#projects" class="btn-back-link">
+                    <i class="fa-solid fa-arrow-left"></i> BACK TO PROJECTS
+                </a>
+            </div>
+            <div class="grid-col-5 border-r bp-nav-back" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; font-family: var(--font-mono); font-weight: 700; font-size: 0.85rem;">
+                <i class="fa-solid fa-microchip text-accent"></i> PROJECT // SPECIFICATION
+            </div>
+            <div class="grid-col-3 bp-cta-nav" style="display: flex; align-items: center; justify-content: flex-end; padding-right: 1.5rem;">
+                <span style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--text-muted);">ACE YORK PORTFOLIO</span>
+            </div>
+        </header>
+
+        <!-- Main Project Content Section -->
+        <main class="project-detail-main">
+            <!-- Hero Header Bar -->
+            <div class="project-detail-hero border-b">
+                <div class="detail-header-meta">
+                    <span class="project-category" id="detailCategory">// CATEGORY</span>
+                    <span class="detail-status-tag" id="detailStatus">[ STATUS ]</span>
+                </div>
+                <h1 class="detail-project-title" id="detailTitle">Project Title</h1>
+                <p class="detail-project-desc" id="detailDescSummary">Short project summary description</p>
+            </div>
+
+            <!-- Stats & Details Grid -->
+            <div class="project-detail-specs-grid border-b">
+                <div class="detail-stat-card">
+                    <span class="stat-lbl">ROLE</span>
+                    <span class="stat-val" id="detailRole">N/A</span>
+                </div>
+                <div class="detail-stat-card">
+                    <span class="stat-lbl">YEAR</span>
+                    <span class="stat-val" id="detailYear">N/A</span>
+                </div>
+                <div class="detail-stat-card">
+                    <span class="stat-lbl">CATEGORY</span>
+                    <span class="stat-val" id="detailCategoryVal">N/A</span>
+                </div>
+                <div class="detail-stat-card">
+                    <span class="stat-lbl">MEDIA COUNT</span>
+                    <span class="stat-val" id="detailMediaCount">0</span>
+                </div>
+            </div>
+
+            <!-- Media Gallery & Viewer Section -->
+            <section class="project-detail-media-section border-b">
+                <div class="detail-media-container">
+                    <div class="project-grid-dec"></div>
+                    
+                    <!-- Media Elements -->
+                    <img id="detailImage" src="" alt="Project Visual Showcase" style="display: none;">
+                    <video id="detailVideo" src="" controls style="display: none; max-width: 100%; max-height: 100%; object-fit: contain; z-index: 2;"></video>
+
+                    <!-- Navigation Arrows -->
+                    <button id="detailPrevBtn" class="modal-nav-arrow arrow-left" aria-label="Previous image">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                    <button id="detailNextBtn" class="modal-nav-arrow arrow-right" aria-label="Next image">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+
+                    <!-- Counter Badge -->
+                    <div id="detailSlideIndicator" class="modal-slide-indicator">1 / 1</div>
+                </div>
+
+                <!-- Thumbnail Navigation Strip -->
+                <div id="detailThumbnailStrip" class="detail-thumbnail-strip"></div>
+            </section>
+
+            <!-- Full Overview & Definition Section -->
+            <section class="project-detail-overview border-b">
+                <div class="section-label">// PROJECT OVERVIEW & DETAILS</div>
+                <div class="detail-definition-content" id="detailDefinition">
+                    <!-- Dynamic HTML content injected here -->
+                </div>
+            </section>
+
+            <!-- Prev / Next Project Navigation Bar -->
+            <footer class="project-detail-nav-footer">
+                <a href="#" id="prevProjectBtn" class="prev-next-card border-r">
+                    <span class="nav-direction"><i class="fa-solid fa-arrow-left"></i> PREVIOUS PROJECT</span>
+                    <span class="nav-project-title" id="prevProjectTitle">Previous Project</span>
+                </a>
+                <a href="#" id="nextProjectBtn" class="prev-next-card">
+                    <span class="nav-direction">NEXT PROJECT <i class="fa-solid fa-arrow-right"></i></span>
+                    <span class="nav-project-title" id="nextProjectTitle">Next Project</span>
+                </a>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="projects-data.js"></script>
+    <script src="project-detail.js"></script>
+</body>
+
+</html>
