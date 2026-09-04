@@ -274,6 +274,17 @@ const PROJECTS_DATA = [
         desc: "A video editing project highlighting narrative pacing, transitions, and dynamic visual composition.",
         definition: `<p><strong>Video Editing Showcase 02: </strong>A video editing project highlighting advanced editing techniques, smooth transitions, audio mixing, and creative post-production storytelling.</p>`,
         screenshots: ["vid/vid2.mp4"]
+    },
+    {
+        id: "lns-logo",
+        title: "Lift & Stride Logo Design",
+        category: "Graphic Design",
+        statusTag: "[ LOGO DESIGN ]",
+        role: "Graphic Designer",
+        year: "2026",
+        desc: "A logo design for Lift & Stride.",
+        definition: `<p><strong>Lift & Stride Logo Design. </strong>A modern, energetic logo that reflects the brand’s focus on fitness, personal coaching, strength, and confidence. The Lift & Stride Fitness & Coaching by Janice logo represents strength, movement, confidence, and empowerment while maintaining a feminine and approachable style. The stylized female figure connects the logo to fitness, strength training, and personal coaching. Its dynamic form suggests movement and progress, reflecting the meaning behind “Lift & Stride.” The clean and modern design keeps the logo professional, memorable, and versatile for use on social media, clothing, business cards, and other materials. The green and pink color palette balances strength and femininity. Green represents health, growth, and vitality, while pink adds an energetic and welcoming touch. Overall, the logo communicates that fitness is about more than physical strength—it is also about building confidence, creating healthy habits, and becoming a stronger version of yourself.</p>`,
+        screenshots: ["img/LnS/1.png", "img/LnS/2.png", "img/LnS/3.png", "img/LnS/4.png", "img/LnS/5.png", "img/LnS/6.png", "img/LnS/7.png"]
     }
 ];
 
