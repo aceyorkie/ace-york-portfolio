@@ -295,7 +295,7 @@ const PROJECTS_DATA = [
         year: "2026",
         desc: "A logo design for Coastal Court.",
         definition: `<p><strong>Coastal Court Logo Design. </strong>Coastal Court is a seaside athletic venue catering to both pickleball and tennis enthusiasts. The goal of this brand identity project was to craft a modern, energetic visual identity that seamlessly captures the dual-sport nature of the facility while celebrating its prime coastal location. The central mark merges a classic tennis ball with a perforated pickleball, positioned side-by-side to mimic a sun rising over the horizon. This visually communicates the core services in a single glance. Sweeping ocean waves underpin the equipment graphics, grounding the logo and directly linking the facility to its seaside backdrop.</p>`,
-        screenshots: ["img/coco/1.png", "img/coco/2.png", "img/coco/3.png", "img/coco/4.png", "img/coco/5.png", "img/coco/6.png", "img/coco/7.png", "img/coco/8.png", "img/coco/9.png"]
+        screenshots: ["img/coco/1.png", "img/coco/2.png", "img/coco/3.png", "img/coco/4.png", "img/coco/5.png", "img/coco/6.png", "img/coco/7.png"]
     }
 ];
 
