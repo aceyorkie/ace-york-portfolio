@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const seeMoreBtn = document.getElementById('seeMoreBtn');
     let isExpanded = false;
 
+    const INITIAL_LIMIT = 6;
+
     function filterProjects() {
         const activeTab = document.querySelector('.filter-tab.active');
         const activeFilter = activeTab ? activeTab.getAttribute('data-filter') : 'all';
@@ -22,8 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (matchesCategory && matchesSearch) {
                 totalFilteredCount++;
-                // Display matching card if expanded, or if it is within the first 3 matches
-                if (isExpanded || searchQuery !== '' || totalFilteredCount <= 3) {
+                // Display matching card if expanded, or if it is within the initial limit
+                if (isExpanded || searchQuery !== '' || totalFilteredCount <= INITIAL_LIMIT) {
                     card.style.display = 'flex';
                 } else {
                     card.style.display = 'none';
@@ -35,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Dynamically show/hide See More button row depending on total matching projects count
         if (seeMoreBtn && seeMoreBtn.parentElement) {
-            if (totalFilteredCount > 3 && searchQuery === '') {
+            if (totalFilteredCount > INITIAL_LIMIT && searchQuery === '') {
                 seeMoreBtn.parentElement.style.display = 'flex';
             } else {
                 seeMoreBtn.parentElement.style.display = 'none';
@@ -43,7 +45,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Run initial filter on page load to set correct default 3 visible cards
+    // Support URL parameters for direct filtering (e.g. ?filter=branding or ?filter=graphic)
+    const urlParams = new URLSearchParams(window.location.search);
+    const filterParam = urlParams.get('filter') || urlParams.get('role');
+    if (filterParam) {
+        let targetFilter = filterParam.toLowerCase();
+        if (targetFilter === 'graphic' || targetFilter === 'design' || targetFilter === 'graphics') {
+            targetFilter = 'branding';
+        } else if (targetFilter === 'dev' || targetFilter === 'code') {
+            targetFilter = 'development';
+        }
+        const matchingTab = document.querySelector(`.filter-tab[data-filter="${targetFilter}"]`);
+        if (matchingTab) {
+            filterTabs.forEach(t => t.classList.remove('active'));
+            matchingTab.classList.add('active');
+        }
+    }
+
+    // Run initial filter on page load
     filterProjects();
 
     filterTabs.forEach(tab => {
