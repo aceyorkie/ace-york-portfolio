@@ -40,6 +40,21 @@ document.addEventListener('DOMContentLoaded', () => {
     if (detailCategoryVal) detailCategoryVal.textContent = project.category || 'N/A';
     if (detailDefinition) detailDefinition.innerHTML = project.definition || `<p>${project.desc}</p>`;
 
+    // Set "BACK TO PROJECTS" button to return to the project's category filter
+    const backBtn = document.querySelector('.btn-back-link');
+    if (backBtn && project && project.category) {
+        const cat = project.category.toLowerCase();
+        if (cat.includes('graphic') || cat.includes('logo')) {
+            backBtn.href = 'index.html#graphic-design';
+        } else if (cat.includes('dev')) {
+            backBtn.href = 'index.html#development';
+        } else if (cat.includes('ui') || cat.includes('ux') || cat.includes('design')) {
+            backBtn.href = 'index.html#ui-ux';
+        } else if (cat.includes('video')) {
+            backBtn.href = 'index.html#video-editing';
+        }
+    }
+
     const screenshots = project.screenshots && project.screenshots.length > 0 ? project.screenshots : [];
     if (detailMediaCount) detailMediaCount.textContent = screenshots.length;
 

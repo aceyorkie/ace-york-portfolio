@@ -11,13 +11,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function filterProjects() {
         const activeTab = document.querySelector('.filter-tab.active');
         const activeFilter = activeTab ? activeTab.getAttribute('data-filter') : 'all';
-        const searchQuery = projectSearch.value.trim().toLowerCase();
+        const searchQuery = projectSearch ? projectSearch.value.trim().toLowerCase() : '';
 
         let totalFilteredCount = 0;
 
         projectCards.forEach(card => {
             const category = card.getAttribute('data-category');
-            const title = card.getAttribute('data-title').toLowerCase();
+            const title = (card.getAttribute('data-title') || '').toLowerCase();
 
             const matchesCategory = (activeFilter === 'all' || category === activeFilter);
             const matchesSearch = title.includes(searchQuery);
@@ -45,43 +45,104 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Support URL parameters for direct filtering (e.g. ?filter=branding or ?filter=graphic)
-    const urlParams = new URLSearchParams(window.location.search);
-    const filterParam = urlParams.get('filter') || urlParams.get('role');
-    if (filterParam) {
-        let targetFilter = filterParam.toLowerCase();
-        if (targetFilter === 'graphic' || targetFilter === 'design' || targetFilter === 'graphics') {
-            targetFilter = 'branding';
-        } else if (targetFilter === 'dev' || targetFilter === 'code') {
-            targetFilter = 'development';
+    // Mapping of URL keywords (hashes or query params) to filter categories
+    const HASH_TO_FILTER_MAP = {
+        'graphic-design': 'branding',
+        'graphic': 'branding',
+        'graphics': 'branding',
+        'graphicdesign': 'branding',
+        'branding': 'branding',
+        'logo': 'branding',
+        'development': 'development',
+        'dev': 'development',
+        'code': 'development',
+        'web-dev': 'development',
+        'web-development': 'development',
+        'frontend': 'development',
+        'design': 'design',
+        'ui-ux': 'design',
+        'ui-ux-design': 'design',
+        'ui': 'design',
+        'ux': 'design',
+        'uiux': 'design',
+        'video': 'video',
+        'video-editing': 'video',
+        'videos': 'video',
+        'editing': 'video',
+        'all': 'all',
+        'all-projects': 'all',
+        'projects': 'all'
+    };
+
+    // Mapping from category to canonical shareable URL hash
+    const FILTER_TO_HASH_MAP = {
+        'branding': '#graphic-design',
+        'development': '#development',
+        'design': '#ui-ux',
+        'video': '#video-editing',
+        'all': '#projects'
+    };
+
+    function parseFilterFromUrl() {
+        // 1. Check hash (e.g. #graphic-design)
+        const rawHash = window.location.hash.replace(/^#/, '').toLowerCase().trim();
+        if (rawHash && HASH_TO_FILTER_MAP[rawHash]) {
+            return { filter: HASH_TO_FILTER_MAP[rawHash], fromHash: true, raw: rawHash };
         }
-        const matchingTab = document.querySelector(`.filter-tab[data-filter="${targetFilter}"]`);
-        if (matchingTab) {
-            filterTabs.forEach(t => t.classList.remove('active'));
-            matchingTab.classList.add('active');
+
+        // 2. Check query parameters (e.g. ?filter=graphic-design or ?role=graphic-design)
+        const urlParams = new URLSearchParams(window.location.search);
+        const queryParam = (urlParams.get('filter') || urlParams.get('category') || urlParams.get('role') || '').toLowerCase().trim();
+        if (queryParam && HASH_TO_FILTER_MAP[queryParam]) {
+            return { filter: HASH_TO_FILTER_MAP[queryParam], fromHash: false, raw: queryParam };
+        }
+
+        return null;
+    }
+
+    function applyFilter(filterName, updateUrl = false, scrollToProjects = false) {
+        const targetTab = document.querySelector(`.filter-tab[data-filter="${filterName}"]`);
+        if (!targetTab) return;
+
+        filterTabs.forEach(t => t.classList.remove('active'));
+        targetTab.classList.add('active');
+
+        // Reset expansion toggle when changing categories
+        isExpanded = false;
+        if (seeMoreBtn) {
+            seeMoreBtn.setAttribute('data-expanded', 'false');
+            seeMoreBtn.textContent = 'SEE MORE PROJECTS';
+        }
+
+        filterProjects();
+
+        // Update URL hash cleanly in address bar for effortless copy-pasting
+        if (updateUrl && window.history && window.history.replaceState) {
+            const canonicalHash = FILTER_TO_HASH_MAP[filterName] || '#projects';
+            window.history.replaceState(null, '', canonicalHash);
+        }
+
+        if (scrollToProjects) {
+            const projectsTarget = document.getElementById('projects');
+            if (projectsTarget) {
+                setTimeout(() => {
+                    projectsTarget.scrollIntoView({ behavior: 'smooth' });
+                }, 150);
+            }
         }
     }
 
-    // Run initial filter on page load
-    filterProjects();
-
+    // Filter tab click handlers
     filterTabs.forEach(tab => {
         tab.addEventListener('click', () => {
-            filterTabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-
-            // Reset expansion toggle when changing categories
-            isExpanded = false;
-            if (seeMoreBtn) {
-                seeMoreBtn.setAttribute('data-expanded', 'false');
-                seeMoreBtn.textContent = 'SEE MORE PROJECTS';
-            }
-
-            filterProjects();
+            const filter = tab.getAttribute('data-filter') || 'all';
+            applyFilter(filter, true, false);
         });
     });
 
-    projectSearch.addEventListener('input', filterProjects);
+    if (projectSearch) {
+        projectSearch.addEventListener('input', filterProjects);
+    }
 
     // See More projects toggle
     if (seeMoreBtn) {
@@ -97,17 +158,33 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Process initial URL filter on page load
+    const initialFilter = parseFilterFromUrl();
+    if (initialFilter) {
+        const shouldScroll = initialFilter.fromHash && initialFilter.raw !== 'projects';
+        applyFilter(initialFilter.filter, false, shouldScroll);
+    } else {
+        filterProjects();
+    }
+
+    // Listen to hash changes (e.g. browser back/forward or manual hash changes)
+    window.addEventListener('hashchange', () => {
+        const hashFilter = parseFilterFromUrl();
+        if (hashFilter) {
+            applyFilter(hashFilter.filter, false, false);
+        }
+    });
+
     // 2. Smooth Navigation Scrolling with active link tracking
     const navLinks = document.querySelectorAll('.bp-nav-link');
-    const sections = document.querySelectorAll('section, .bp-section-banner');
+    const trackedSections = document.querySelectorAll('section[id], .bp-section-banner[id], #projects, #contact');
 
     window.addEventListener('scroll', () => {
         let currentSection = "";
 
-        sections.forEach(section => {
+        trackedSections.forEach(section => {
             const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
-            if (pageYOffset >= (sectionTop - 120)) {
+            if (window.pageYOffset >= (sectionTop - 140)) {
                 const id = section.getAttribute('id');
                 if (id) {
                     currentSection = id;
@@ -124,4 +201,5 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
 
